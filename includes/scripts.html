@@ -1,0 +1,11 @@
+<!-- JavaScript Modules -->
+<script type="module" src="js/main.js"></script>
+<script src="js/script.js"></script>
+<script src="js/locationModal.js"></script>
+<script type="module">
+  import { initGlobe } from "./js/globe.js";
+  // Initialize globe after DOM loads
+  document.addEventListener("DOMContentLoaded", () => {
+    initGlobe();
+  });
+</script>

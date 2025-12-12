@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vị trí - Chi tiết</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/location-detail.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Leaflet CSS for OpenStreetMap -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+  </head>
+  <body>
+    <div class="location-detail-page">
+      <button class="close-btn" onclick="window.history.back()">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="location-header">
+        <div class="location-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <h1 id="location-name">Đang tải...</h1>
+        <p id="location-coords">Tọa độ: --°, --°</p>
+      </div>
+
+      <div class="satellite-view">
+        <div id="satellite-map"></div>
+        <div class="map-controls">
+          <button class="zoom-btn" onclick="zoomIn()">
+            <i class="fas fa-plus"></i>
+          </button>
+          <button class="zoom-btn" onclick="zoomOut()">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            class="view-toggle"
+            onclick="toggleMapType()"
+            title="Chuyển kiểu bản đồ"
+          >
+            <i class="fas fa-layer-group"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="location-info">
+        <div class="info-card">
+          <h3><i class="fas fa-globe"></i> Thông tin địa lý</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Vĩ độ:</span>
+              <span class="value" id="latitude">--</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Kinh độ:</span>
+              <span class="value" id="longitude">--</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Địa chỉ:</span>
+              <span class="value" id="address">Đang tải...</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Múi giờ:</span>
+              <span class="value" id="timezone">--</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3><i class="fas fa-clock"></i> Thời gian địa phương</h3>
+          <div class="local-time" id="local-time">--:--:--</div>
+          <div class="local-date" id="local-date">--</div>
+        </div>
+
+        <div class="info-card">
+          <h3><i class="fas fa-cloud-sun"></i> Thời tiết</h3>
+          <div class="weather-info" id="weather">
+            <div class="loading">Đang tải thông tin thời tiết...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="#" class="action-btn" id="google-maps-link" target="_blank">
+          <i class="fab fa-google"></i>
+          Xem trên Google Maps
+        </a>
+        <a href="#" class="action-btn" id="openstreetmap-link" target="_blank">
+          <i class="fas fa-map"></i>
+          Xem trên OpenStreetMap
+        </a>
+        <a href="#" class="action-btn" id="directions-link" target="_blank">
+          <i class="fas fa-directions"></i>
+          Chỉ đường
+        </a>
+      </div>
+    </div>
+
+    <!-- Leaflet JS for OpenStreetMap -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+      // Wait for DOM and Leaflet to load
+      window.addEventListener("load", function () {
+        // Initialize theme from localStorage or default to light
+        const savedTheme = localStorage.getItem("theme") || "light";
+        if (savedTheme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+
+        // Get coordinates from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const lat = parseFloat(urlParams.get("lat")) || 10.8231;
+        const lng = parseFloat(urlParams.get("lng")) || 106.6297;
+        const name = decodeURIComponent(urlParams.get("name") || "Vị trí");
+
+        console.log("Loading location page:", { lat, lng, name });
+
+        // Display basic info
+        document.getElementById("location-name").textContent = name;
+        document.getElementById(
+          "location-coords"
+        ).textContent = `Tọa độ: ${lat.toFixed(6)}°, ${lng.toFixed(6)}°`;
+        document.getElementById("latitude").textContent = lat.toFixed(6) + "°";
+        document.getElementById("longitude").textContent = lng.toFixed(6) + "°";
+
+        // External links
+        document.getElementById(
+          "google-maps-link"
+        ).href = `https://www.google.com/maps?q=${lat},${lng}`;
+        document.getElementById(
+          "openstreetmap-link"
+        ).href = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}&zoom=15`;
+        document.getElementById(
+          "directions-link"
+        ).href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+
+        let map;
+        let marker;
+        let currentLayer = "satellite";
+
+        // Tile layers
+        const layers = {
+          satellite: L.tileLayer(
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+            {
+              attribution:
+                "&copy; Esri &mdash; Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+              maxZoom: 19,
+            }
+          ),
+          street: L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+              attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              maxZoom: 19,
+            }
+          ),
+        };
+
+        // Initialize map with Leaflet (OpenStreetMap)
+        console.log("Initializing map with coordinates:", lat, lng);
+        console.log("Leaflet loaded:", typeof L !== "undefined");
+
+        try {
+          map = L.map("satellite-map", {
+            center: [lat, lng],
+            zoom: 15,
+            zoomControl: false,
+            layers: [layers.satellite],
+          });
+
+          console.log("Map initialized successfully");
+
+          // Custom marker icon (green pulse)
+          const markerIcon = L.divIcon({
+            className: "custom-marker",
+            html: '<div class="marker-pin"><i class="fas fa-map-marker-alt"></i></div>',
+            iconSize: [30, 42],
+            iconAnchor: [15, 42],
+            popupAnchor: [0, -42],
+          });
+
+          // Add marker
+          marker = L.marker([lat, lng], { icon: markerIcon })
+            .addTo(map)
+            .bindPopup(
+              `<b>${name}</b><br>Lat: ${lat.toFixed(6)}°<br>Lng: ${lng.toFixed(
+                6
+              )}°`
+            )
+            .openPopup();
+
+          console.log("Marker added successfully");
+        } catch (error) {
+          console.error("Error initializing map:", error);
+        }
+
+        // Get address using Nominatim (OpenStreetMap's free geocoding)
+        async function getAddress() {
+          try {
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=vi`
+            );
+            const data = await response.json();
+            if (data.display_name) {
+              document.getElementById("address").textContent =
+                data.display_name;
+            }
+          } catch (error) {
+            document.getElementById("address").textContent =
+              "Không thể tải địa chỉ";
+          }
+        }
+
+        getAddress();
+
+        // Map control functions (must be in window scope for onclick)
+        window.zoomIn = function () {
+          if (map) map.zoomIn();
+        };
+
+        window.zoomOut = function () {
+          if (map) map.zoomOut();
+        };
+
+        window.toggleMapType = function () {
+          if (!map) return;
+          if (currentLayer === "satellite") {
+            map.removeLayer(layers.satellite);
+            map.addLayer(layers.street);
+            currentLayer = "street";
+          } else {
+            map.removeLayer(layers.street);
+            map.addLayer(layers.satellite);
+            currentLayer = "satellite";
+          }
+        };
+
+        // Update local time
+        function updateLocalTime() {
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString("vi-VN", {
+            timeZone: "Asia/Ho_Chi_Minh",
+          });
+          const dateStr = now.toLocaleDateString("vi-VN", {
+            timeZone: "Asia/Ho_Chi_Minh",
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+
+          document.getElementById("local-time").textContent = timeStr;
+          document.getElementById("local-date").textContent = dateStr;
+          document.getElementById("timezone").textContent =
+            "UTC+7 (Asia/Ho_Chi_Minh)";
+        }
+
+        updateLocalTime();
+        setInterval(updateLocalTime, 1000);
+
+        // Fetch weather data (using Open-Meteo API - free, no key needed)
+        async function getWeather() {
+          try {
+            const response = await fetch(
+              `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&timezone=auto`
+            );
+            const data = await response.json();
+
+            if (data.current_weather) {
+              const weather = data.current_weather;
+              const weatherHTML = `
+              <div class="weather-display">
+                <div class="temperature">${weather.temperature}°C</div>
+                <div class="weather-details">
+                  <div><i class="fas fa-wind"></i> Gió: ${weather.windspeed} km/h</div>
+                  <div><i class="fas fa-compass"></i> Hướng: ${weather.winddirection}°</div>
+                </div>
+              </div>
+            `;
+              document.getElementById("weather").innerHTML = weatherHTML;
+            }
+          } catch (error) {
+            document.getElementById("weather").innerHTML =
+              '<div class="error">Không thể tải thời tiết</div>';
+          }
+        }
+
+        getWeather();
+      }); // End of window.addEventListener('load')
+    </script>
+  </body>
+</html>

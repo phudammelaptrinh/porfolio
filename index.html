@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Portfolio của Phú - Web Developer" />
+    <title>Phú | Portfolio</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&family=Crimson+Text:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS Modules -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/navigation.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/chatbox.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/globe.css" />
+    <link rel="stylesheet" href="css/location-modal.css" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Leaflet CSS for Map -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <!-- Three.js for 3D Globe -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- EmailJS -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="container">
+        <div class="logo">
+          <a href="#home">&lt;Phú/&gt;</a>
+        </div>
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link">Trang chủ</a></li>
+          <li><a href="#about" class="nav-link">Giới thiệu</a></li>
+          <li><a href="#skills" class="nav-link">Kỹ năng</a></li>
+          <li><a href="#projects" class="nav-link">Dự án</a></li>
+          <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+        </ul>
+        <div class="theme-toggle" id="theme-toggle">
+          <div class="toggle-track">
+            <div class="toggle-thumb">
+              <i class="fas fa-moon moon-icon"></i>
+              <i class="fas fa-sun sun-icon"></i>
+            </div>
+            <div class="stars">
+              <span class="star"></span>
+              <span class="star"></span>
+              <span class="star"></span>
+              <span class="star"></span>
+              <span class="star"></span>
+            </div>
+            <div class="clouds">
+              <span class="cloud"></span>
+              <span class="cloud"></span>
+            </div>
+          </div>
+        </div>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="glitch" data-text="Xin chào, tôi là">
+              Xin chào, tôi là
+            </h1>
+            <h2 class="name-highlight">Hồ Trường Minh Phú</h2>
+            <p class="typewriter">
+              <span class="typed-text"></span>
+              <span class="cursor">&nbsp;</span>
+            </p>
+            <div class="hero-buttons">
+              <a href="#projects" class="btn btn-primary">Xem dự án</a>
+              <a href="#contact" class="btn btn-secondary">Liên hệ</a>
+            </div>
+            <div class="social-links">
+              <a
+                href="https://github.com/yourusername"
+                target="_blank"
+                aria-label="GitHub"
+              >
+                <i class="fab fa-github"></i>
+              </a>
+              <a
+                href="https://linkedin.com/in/yourusername"
+                target="_blank"
+                aria-label="LinkedIn"
+              >
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a
+                href="https://twitter.com/yourusername"
+                target="_blank"
+                aria-label="Twitter"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="mailto:phuho22112003@gmail.com" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+              </a>
+            </div>
+          </div>
+          <div class="hero-image">
+            <div id="globe-container" class="globe-container"></div>
+
+            <!-- Location Detail Modal -->
+            <div id="location-modal" class="location-modal">
+              <div class="location-modal-content">
+                <button
+                  class="location-close-btn"
+                  onclick="closeLocationModal()"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+
+                <div class="location-modal-header">
+                  <div class="location-modal-icon">
+                    <i class="fas fa-location-dot"></i>
+                  </div>
+                  <h3 id="modal-location-name">Vị trí của bạn</h3>
+                  <p id="modal-location-coords">--°, --°</p>
+                </div>
+
+                <div class="location-modal-body">
+                  <div id="modal-map" class="modal-map"></div>
+
+                  <div class="location-modal-info">
+                    <div class="info-row">
+                      <i class="fas fa-location-crosshairs"></i>
+                      <div>
+                        <strong>Tọa độ:</strong>
+                        <span id="modal-coords">--</span>
+                      </div>
+                    </div>
+                    <div class="info-row">
+                      <i class="fas fa-location-dot"></i>
+                      <div>
+                        <strong>Địa chỉ:</strong>
+                        <span id="modal-address">Đang tải...</span>
+                      </div>
+                    </div>
+                    <div class="info-row">
+                      <div
+                        class="info-icon-wrapper"
+                        id="clock-icon-wrapper"
+                      ></div>
+                      <div>
+                        <strong>Thời gian:</strong>
+                        <span id="modal-time">--:--:--</span>
+                      </div>
+                    </div>
+                    <div class="info-row">
+                      <i class="fas fa-temperature-half"></i>
+                      <div>
+                        <strong>Nhiệt độ:</strong>
+                        <span id="modal-weather">--°C</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="location-modal-actions">
+                    <a
+                      href="#"
+                      id="modal-google-maps"
+                      target="_blank"
+                      class="modal-btn"
+                    >
+                      <i class="fas fa-map-location-dot"></i> Google Maps
+                    </a>
+                    <a
+                      href="#"
+                      id="modal-openstreetmap"
+                      target="_blank"
+                      class="modal-btn"
+                    >
+                      <i class="fas fa-road"></i> OpenStreetMap
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-down">
+        <a href="#about">
+          <i class="fas fa-chevron-down"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title">Giới thiệu về tôi</h2>
+        <div class="about-content">
+          <div class="about-text">
+            <p>
+              Xin chào! Tôi là một <strong>Web Developer</strong> đam mê tạo ra
+              những trải nghiệm web tuyệt vời và hiệu quả. Với kinh nghiệm trong
+              việc phát triển ứng dụng web hiện đại, tôi chuyên về front-end
+              development và luôn học hỏi các công nghệ mới.
+            </p>
+            <p>
+              Tôi yêu thích việc biến ý tưởng thành hiện thực thông qua code,
+              tạo ra các giao diện người dùng đẹp mắt và dễ sử dụng. Mục tiêu
+              của tôi là xây dựng các ứng dụng không chỉ hoạt động tốt mà còn
+              mang lại trải nghiệm tuyệt vời cho người dùng.
+            </p>
+            <div class="about-info">
+              <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Việt Nam</span>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-briefcase"></i>
+                <span>Web Developer</span>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Computer Science</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+      <div class="container">
+        <h2 class="section-title">Kỹ năng của tôi</h2>
+        <div class="skills-grid">
+          <div class="skill-category">
+            <h3>Frontend</h3>
+            <div class="skill-items">
+              <div class="skill-item">
+                <i class="fab fa-html5"></i>
+                <span>HTML5</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-css3-alt"></i>
+                <span>CSS3</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-js"></i>
+                <span>JavaScript</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-react"></i>
+                <span>React</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-vuejs"></i>
+                <span>Vue.js</span>
+              </div>
+            </div>
+          </div>
+          <div class="skill-category">
+            <h3>Backend</h3>
+            <div class="skill-items">
+              <div class="skill-item">
+                <i class="fab fa-node"></i>
+                <span>Node.js</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-python"></i>
+                <span>Python</span>
+              </div>
+              <div class="skill-item">
+                <i class="fas fa-database"></i>
+                <span>MySQL</span>
+              </div>
+              <div class="skill-item">
+                <i class="fas fa-database"></i>
+                <span>MongoDB</span>
+              </div>
+            </div>
+          </div>
+          <div class="skill-category">
+            <h3>Tools & Others</h3>
+            <div class="skill-items">
+              <div class="skill-item">
+                <i class="fab fa-git-alt"></i>
+                <span>Git</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+              </div>
+              <div class="skill-item">
+                <i class="fab fa-figma"></i>
+                <span>Figma</span>
+              </div>
+              <div class="skill-item">
+                <i class="fas fa-cloud"></i>
+                <span>Cloud Services</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+      <div class="container">
+        <h2 class="section-title">Dự án của tôi</h2>
+        <div class="projects-grid">
+          <div class="project-card">
+            <div class="project-image">
+              <img src="assets/images/project1.jpg" alt="Project 1" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" target="_blank">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="#" class="project-link" target="_blank">
+                  <i class="fab fa-github"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>E-Commerce Website</h3>
+              <p>
+                Website thương mại điện tử đầy đủ tính năng với giỏ hàng, thanh
+                toán và quản lý sản phẩm.
+              </p>
+              <div class="project-tags">
+                <span>React</span>
+                <span>Node.js</span>
+                <span>MongoDB</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img src="assets/images/project2.jpg" alt="Project 2" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" target="_blank">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="#" class="project-link" target="_blank">
+                  <i class="fab fa-github"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Task Management App</h3>
+              <p>
+                Ứng dụng quản lý công việc với tính năng kéo thả, deadline và
+                collaboration.
+              </p>
+              <div class="project-tags">
+                <span>Vue.js</span>
+                <span>Firebase</span>
+                <span>Tailwind</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <img src="assets/images/project3.jpg" alt="Project 3" />
+              <div class="project-overlay">
+                <a href="#" class="project-link" target="_blank">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="#" class="project-link" target="_blank">
+                  <i class="fab fa-github"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3>Weather Dashboard</h3>
+              <p>
+                Dashboard thời tiết với dự báo chi tiết và biểu đồ thống kê.
+              </p>
+              <div class="project-tags">
+                <span>JavaScript</span>
+                <span>API</span>
+                <span>Chart.js</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2 class="section-title">Liên hệ với tôi</h2>
+        <div class="contact-content">
+          <div class="contact-info">
+            <h3>Hãy kết nối!</h3>
+            <p>
+              Tôi luôn sẵn sàng thảo luận về dự án mới, cơ hội hợp tác hoặc đơn
+              giản là trò chuyện về công nghệ.
+            </p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                  <h4>Email</h4>
+                  <a href="mailto:phuho22112003@gmail.com"
+                    >phuho22112003@gmail.com</a
+                  >
+                </div>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                  <h4>Điện thoại</h4>
+                  <a href="tel:+84343989667">0343 989 667</a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                  <h4>Địa chỉ</h4>
+                  <p>TP. Hồ Chí Minh, Việt Nam</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <input
+                type="text"
+                name="name"
+                placeholder="Tên của bạn"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email của bạn"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                name="subject"
+                placeholder="Tiêu đề"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <textarea
+                name="message"
+                rows="5"
+                placeholder="Tin nhắn của bạn"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <span>Gửi tin nhắn</span>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>
+            &copy; 2025 Portfolio. Made with <i class="fas fa-heart"></i> by
+            <strong>Hồ Trường Minh Phú</strong>
+          </p>
+          <div class="footer-links">
+            <a href="#home">Về đầu trang</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Chatbox -->
+    <div class="chatbox-container" id="chatbox">
+      <div class="chatbox-toggle" id="chatboxToggle">
+        <i class="fas fa-comment-dots"></i>
+        <span class="chat-notification">1</span>
+      </div>
+
+      <div class="chatbox-window" id="chatboxWindow">
+        <div class="chatbox-header">
+          <div class="chat-header-info">
+            <div class="chat-avatar">
+              <i class="fas fa-user-circle"></i>
+              <span class="online-indicator"></span>
+            </div>
+            <div>
+              <h4>Trò chuyện với tôi</h4>
+              <span class="chat-status">Đang online</span>
+            </div>
+          </div>
+          <button class="chat-close" id="chatboxClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="chatbox-messages" id="chatboxMessages">
+          <div class="chat-message bot-message">
+            <div class="message-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+              <p>Xin chào! Tôi là Phú. Tôi có thể giúp gì cho bạn?</p>
+              <span class="message-time">Bây giờ</span>
+            </div>
+          </div>
+          <!-- Quick replies will be added here by JavaScript -->
+          <div class="quick-replies" id="quickReplies">
+            <button class="quick-reply-btn" data-action="projects">
+              Xem dự án
+            </button>
+            <button class="quick-reply-btn" data-action="contact">
+              Thông tin liên hệ
+            </button>
+            <button class="quick-reply-btn" data-action="email">
+              Gửi email
+            </button>
+            <button class="quick-reply-btn" data-action="skills">
+              Kỹ năng
+            </button>
+            <button class="quick-reply-btn" data-action="cv">
+              <i class="fas fa-file-pdf"></i> Tải CV
+            </button>
+          </div>
+        </div>
+
+        <div class="chatbox-input">
+          <form id="chatboxForm">
+            <input
+              type="text"
+              id="chatboxMessageInput"
+              placeholder="Nhập tin nhắn..."
+              autocomplete="off"
+              required
+            />
+            <button type="submit" class="chat-send-btn">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Notification -->
+    <div
+      id="location-notification"
+      class="location-notification"
+      style="display: none"
+    >
+      <div class="location-content">
+        <i class="fas fa-map-marker-alt"></i>
+        <div class="location-text">
+          <h4>Chia sẻ vị trí của bạn?</h4>
+          <p>Để hiển thị vị trí của bạn trên quả địa cầu</p>
+        </div>
+        <div class="location-actions">
+          <button id="allow-location" class="btn-allow">Cho phép</button>
+          <button id="deny-location" class="btn-deny">Từ chối</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/main.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/clock-icon.js"></script>
+    <script src="js/locationModal.js"></script>
+    <script type="module">
+      import { initGlobe } from "./js/globe.js";
+      document.addEventListener("DOMContentLoaded", () => {
+        initGlobe();
+      });
+    </script>
+  </body>
+</html>

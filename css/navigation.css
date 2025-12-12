@@ -1,0 +1,269 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--bg-primary);
+  box-shadow: 0 2px 10px var(--shadow);
+  z-index: 1000;
+  transition: var(--transition);
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 20px;
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: var(--transition);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  margin-left: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.toggle-track {
+  width: 70px;
+  height: 35px;
+  background: linear-gradient(
+    to right,
+    #1e3a8a 0%,
+    #1e40af 50%,
+    #87ceeb 50%,
+    #e0f2fe 100%
+  );
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] .toggle-track {
+  background: linear-gradient(
+    to right,
+    #1e3a8a 0%,
+    #1e40af 50%,
+    #87ceeb 50%,
+    #e0f2fe 100%
+  );
+  background-position: 100% 0;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 29px;
+  height: 29px;
+  background: linear-gradient(135deg, #cbd5e1 0%, #e2e8f0 100%);
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme="light"] .toggle-thumb {
+  left: 38px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.6), 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.moon-icon,
+.sun-icon {
+  position: absolute;
+  font-size: 0.9rem;
+  transition: all 0.4s ease;
+}
+
+.moon-icon {
+  color: #cbd5e1;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.sun-icon {
+  color: #fff;
+  opacity: 0;
+  transform: scale(0) rotate(180deg);
+}
+
+[data-theme="light"] .moon-icon {
+  opacity: 0;
+  transform: scale(0) rotate(-180deg);
+}
+
+[data-theme="light"] .sun-icon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Stars (dark mode) */
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+[data-theme="light"] .stars {
+  opacity: 0;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 2s infinite;
+}
+
+.star:nth-child(1) {
+  top: 8px;
+  left: 12px;
+  animation-delay: 0s;
+}
+
+.star:nth-child(2) {
+  top: 18px;
+  left: 8px;
+  animation-delay: 0.5s;
+}
+
+.star:nth-child(3) {
+  top: 12px;
+  left: 22px;
+  animation-delay: 1s;
+}
+
+.star:nth-child(4) {
+  top: 25px;
+  left: 18px;
+  animation-delay: 1.5s;
+}
+
+.star:nth-child(5) {
+  top: 20px;
+  left: 28px;
+  animation-delay: 0.7s;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Clouds (light mode) */
+.clouds {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+[data-theme="light"] .clouds {
+  opacity: 1;
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  animation: float 3s infinite ease-in-out;
+}
+
+.cloud:nth-child(1) {
+  width: 12px;
+  height: 5px;
+  top: 8px;
+  right: 15px;
+  animation-delay: 0s;
+}
+
+.cloud:nth-child(2) {
+  width: 10px;
+  height: 4px;
+  top: 18px;
+  right: 8px;
+  animation-delay: 1s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.theme-toggle:hover .toggle-track {
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 10px rgba(var(--primary-rgb), 0.3);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-primary);
+  transition: var(--transition);
+}

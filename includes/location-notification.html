@@ -1,0 +1,103 @@
+<!-- Location Permission Notification -->
+<div
+  id="location-notification"
+  class="location-notification"
+  style="display: none"
+>
+  <div class="location-content">
+    <i class="fas fa-map-marker-alt"></i>
+    <div class="location-text">
+      <h4>Chia sẻ vị trí của bạn?</h4>
+      <p>Để hiển thị vị trí của bạn trên quả địa cầu</p>
+    </div>
+    <div class="location-actions">
+      <button id="allow-location" class="btn-allow">Cho phép</button>
+      <button id="deny-location" class="btn-deny">Từ chối</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .location-notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: var(--bg-primary);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 20px;
+    max-width: 350px;
+    box-shadow: 0 10px 40px var(--shadow);
+    z-index: 10000;
+    animation: slideInRight 0.3s ease;
+  }
+
+  .location-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .location-content i {
+    font-size: 2rem;
+    color: var(--primary-color);
+  }
+
+  .location-text h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+  }
+
+  .location-text p {
+    margin: 5px 0 0 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .location-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .location-actions button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+
+  .btn-allow {
+    background: var(--primary-color);
+    color: var(--bg-primary);
+  }
+
+  .btn-allow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--shadow);
+  }
+
+  .btn-deny {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .btn-deny:hover {
+    background: var(--bg-secondary);
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+</style>

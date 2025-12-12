@@ -1,0 +1,123 @@
+<section id="home" class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="glitch" data-text="Xin chào, tôi là">Xin chào, tôi là</h1>
+        <h2 class="name-highlight">Hồ Trường Minh Phú</h2>
+        <p class="typewriter">
+          <span class="typed-text"></span>
+          <span class="cursor">&nbsp;</span>
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">Xem dự án</a>
+          <a href="#contact" class="btn btn-secondary">Liên hệ</a>
+        </div>
+        <div class="social-links">
+          <a
+            href="https://github.com/yourusername"
+            target="_blank"
+            aria-label="GitHub"
+          >
+            <i class="fab fa-github"></i>
+          </a>
+          <a
+            href="https://linkedin.com/in/yourusername"
+            target="_blank"
+            aria-label="LinkedIn"
+          >
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a
+            href="https://twitter.com/yourusername"
+            target="_blank"
+            aria-label="Twitter"
+          >
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="mailto:phuho22112003@gmail.com" aria-label="Email">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div id="globe-container" class="globe-container"></div>
+
+        <!-- Location Detail Modal -->
+        <div id="location-modal" class="location-modal">
+          <div class="location-modal-content">
+            <button class="location-close-btn" onclick="closeLocationModal()">
+              <i class="fas fa-times"></i>
+            </button>
+
+            <div class="location-modal-header">
+              <div class="location-modal-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <h3 id="modal-location-name">Vị trí của bạn</h3>
+              <p id="modal-location-coords">--°, --°</p>
+            </div>
+
+            <div class="location-modal-body">
+              <div id="modal-map" class="modal-map"></div>
+
+              <div class="location-modal-info">
+                <div class="info-row">
+                  <i class="fas fa-globe"></i>
+                  <div>
+                    <strong>Tọa độ:</strong>
+                    <span id="modal-coords">--</span>
+                  </div>
+                </div>
+                <div class="info-row">
+                  <i class="fas fa-map-pin"></i>
+                  <div>
+                    <strong>Địa chỉ:</strong>
+                    <span id="modal-address">Đang tải...</span>
+                  </div>
+                </div>
+                <div class="info-row">
+                  <i class="fas fa-clock"></i>
+                  <div>
+                    <strong>Thời gian:</strong>
+                    <span id="modal-time">--:--:--</span>
+                  </div>
+                </div>
+                <div class="info-row">
+                  <i class="fas fa-thermometer-half"></i>
+                  <div>
+                    <strong>Nhiệt độ:</strong>
+                    <span id="modal-weather">--°C</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="location-modal-actions">
+                <a
+                  href="#"
+                  id="modal-google-maps"
+                  target="_blank"
+                  class="modal-btn"
+                >
+                  <i class="fab fa-google"></i> Google Maps
+                </a>
+                <a
+                  href="#"
+                  id="modal-openstreetmap"
+                  target="_blank"
+                  class="modal-btn"
+                >
+                  <i class="fas fa-map"></i> OpenStreetMap
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-down">
+    <a href="#about">
+      <i class="fas fa-chevron-down"></i>
+    </a>
+  </div>
+</section>
