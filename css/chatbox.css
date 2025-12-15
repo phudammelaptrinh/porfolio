@@ -1,14 +1,14 @@
 .chatbox-container {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 2%;
+  right: 2%;
   z-index: 1000;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .chatbox-toggle {
-  width: 60px;
-  height: 60px;
+  width: 3.75rem;
+  height: 3.75rem;
   border-radius: 50%;
   background: var(--primary-color);
   color: var(--bg-primary);
@@ -57,10 +57,12 @@
 
 .chatbox-window {
   position: absolute;
-  bottom: 80px;
+  bottom: 5rem;
   right: 0;
-  width: 380px;
-  height: 500px;
+  width: 90vw;
+  max-width: 380px;
+  height: 70vh;
+  max-height: 500px;
   background: var(--bg-primary);
   border-radius: 20px;
   box-shadow: 0 10px 40px var(--shadow);
