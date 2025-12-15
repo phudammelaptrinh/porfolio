@@ -1,6 +1,6 @@
 .globe-container {
-  width: 650px;
-  height: 650px;
+  width: 600px;
+  height: 600px;
   max-width: 100%;
   margin: 0 auto;
   position: relative;
@@ -16,8 +16,8 @@
 
 /* Light mode enhancements for globe */
 [data-theme="light"] .globe-container {
-  width: 700px;
-  height: 700px;
+  width: 650px;
+  height: 650px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15), 0 15px 40px rgba(0, 0, 0, 0.1),
     inset 0 -10px 40px rgba(0, 0, 0, 0.05);
   border: 3px solid rgba(0, 0, 0, 0.08);
@@ -34,12 +34,13 @@
 
 .globe-container canvas {
   display: block;
-  width: 120% !important;
-  height: 120% !important;
+  width: 100% !important;
+  height: 100% !important;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border-radius: 50%;
 }
 
 @media (max-width: 768px) {
