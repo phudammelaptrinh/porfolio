@@ -201,21 +201,28 @@ function showSkills() {
         <i class="fab fa-react"></i>
         <div class="contact-info-text">
           <div class="label">Frontend</div>
-          <div class="value">HTML, CSS, JavaScript, React, Vue.js</div>
+          <div class="value">HTML, CSS, JavaScript, React, Vue.js, TypeScript</div>
         </div>
       </div>
       <div class="contact-info-item" style="cursor: default;">
         <i class="fab fa-node"></i>
         <div class="contact-info-text">
           <div class="label">Backend</div>
-          <div class="value">Node.js, Python, MySQL, MongoDB</div>
+          <div class="value">Node.js, Python, MySQL, MongoDB, Express.js, PHP</div>
         </div>
       </div>
       <div class="contact-info-item" style="cursor: default;">
         <i class="fab fa-git-alt"></i>
         <div class="contact-info-text">
           <div class="label">Tools & Others</div>
-          <div class="value">Git, GitHub, Figma, Cloud Services</div>
+          <div class="value">Git, GitHub, Figma, Cloud Services, Docker, VS Code</div>
+        </div>
+      </div>
+      <div class="contact-info-item" style="cursor: default;">
+        <i class="fas fa-comments"></i>
+        <div class="contact-info-text">
+          <div class="label">Soft Skills</div>
+          <div class="value">Communication, Documentation, UI/UX Thinking, Teamwork, Problem Solving, Time Management</div>
         </div>
       </div>
     </div>
